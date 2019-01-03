@@ -3,7 +3,7 @@ module.exports = app => {
     const Schema = mongoose.Schema;
     const conn = app.mongooseDB.get('book');
 
-    const bookList = new Schema({
+    const bookListSchema = new Schema({
         title: {
             type: String,
             index: true
@@ -24,12 +24,18 @@ module.exports = app => {
             type: String
         },
         bid: {
-            type: Number
+            type: String
+        },
+        url: {
+            type: String
         },
         imgUrl: {
+            type: String
+        },
+        chapterUrl: {
             type: String
         }
     });
 
-    return conn.model('bookList', bookList);
+    return conn.model('BookList', bookListSchema);
 }
