@@ -14,9 +14,6 @@ module.exports = app => {
         author: {
             type: String
         },
-        lastupdate: {
-            type: Date
-        },
         type: {
             type: Number
         },
@@ -34,6 +31,20 @@ module.exports = app => {
         },
         chapterUrl: {
             type: String
+        },
+        isDetail: {
+            type: Boolean
+        },
+        chapterNum: {
+            type: Number
+        },
+        updateAt: {
+            type: Date,
+            default: Date.now()
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now()
         }
     });
 

@@ -37,7 +37,9 @@ class BookController extends Controller {
                             title: item.querySelector("a").innerText,
                             author: item.innerHTML.split('/')[6],
                             bid: item.innerHTML.split('/')[3],
-                            url: item.querySelector("a").href
+                            url: item.querySelector("a").href,
+                            isDetail: false,
+                            chapterNum: 0
                         }
                         arr.push(data);
                     })
@@ -45,36 +47,10 @@ class BookController extends Controller {
                 return arr;
             });
             for (let i = 0; i < result.length; i++) {
-                // (function (j) {
-                //     setTimeout(async () => {
-
-                //     }, j * 10000);
-                // })(i)
-                console.log("准备进入。。。");
-                console.log(result[i].url)
-                await page.goto(result[i].url);
-                // await page.waitForNavigation();
-                // await page.waitFor(30000);
-                console.log('进入详情页。。。')
-                // await page.evaluate(() => {
-                //     let intro = document.querySelector(".r_cons").innerHTML;
-                //     let imgUrl = document.querySelector(".con_limg img").getAttribute("src");
-                //     let chapterUrl = document.querySelector(".dirtools a").href;
-                //     result[i]['main'] = intro;
-                //     result[i]['imgUrl'] = imgUrl;
-                //     result[i]['chapterUrl'] = chapterUrl;
-                //     console.log(result[i])
-                // })
-                console.log(result[i])
-                // //存入数据库
-                // console.log(result[j])
-                // await ctx.service.book.createBook(result[j]);
+                await ctx.service.book.createBook(result[i]);
             }
-            fs.writeFile('app/public/book/bookList.json', JSON.stringify(result), function (err) {
-                if (err) {
-                    logger.info(err);
-                }
-            });
+            fs.writeFileSync('app/public/book/bookList.json', JSON.stringify(result));
+            console.log('完成');
         } catch (error) {
             console.log(error);
         }
@@ -90,34 +66,43 @@ class BookController extends Controller {
             // ]
         });
         const page = await browser.newPage();
-
-        for (let i = 0; i < data.length; i++) {
-            (function (j) {
-                setTimeout(async () => {
+        try {
+            for (let i = 0; i < data.length; i++) {
+                if (!data[i].isDetail) {
                     console.log("准备进入。。。")
                     await page.goto(data[i].url);
-                    console.log('进入详情页。。。')
+                    console.log('进入详情页。。。');
+                    await page.waitFor(10000);
                     const result = await page.evaluate(() => {
                         let intro = document.querySelector(".r_cons").innerHTML;
                         let imgUrl = document.querySelector(".con_limg img").getAttribute("src");
                         let chapterUrl = document.querySelector(".dirtools a").href;
+                        let title = document.querySelector(".r420 h1").innerText;
 
                         let update = {
                             main: intro,
                             imgUrl: imgUrl,
-                            chapterUrl: chapterUrl
+                            chapterUrl: chapterUrl,
+                            title: title,
+                            isDetail: true,
+                            updateAt: Date.now()
                         }
                         return update;
                     })
 
                     //存入数据库
                     await ctx.service.book.updateBook(data[i].bid, result);
-                }, j * 10000);
-            })(i)
+                    data[i].isDetail = true;
+                    fs.writeFileSync('app/public/book/bookList.json', JSON.stringify(data));
+                    console.log(`已更新${result.title}`);
+                }
+            }
+        } catch (error) {
+            console.log(`err:${error}`);
+            await browser.close();
+            await this.bookDetail();
         }
-
     }
-
 }
 
 module.exports = BookController;
