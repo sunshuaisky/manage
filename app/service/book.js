@@ -9,9 +9,21 @@ class BookService extends Service {
     }
 
     async updateBook(bid, data) {
-        await this.ctx.model.BookList.update({
+        await this.ctx.model.BookList.updateOne({
             bid: bid
         }, data);
     }
+
+    // async timeout(delay) {
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             try {
+    //                 resolve(1);
+    //             } catch (e) {
+    //                 reject(0)
+    //             }
+    //         }, delay);
+    //     });
+    // }
 }
 module.exports = BookService;
