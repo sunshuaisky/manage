@@ -10,6 +10,10 @@ module.exports = appInfo => {
   exports.mongoose = {
     clients: {
       // clientId, access the client instance by app.mongooseDB.get('clientId')
+      user: {
+        url: 'mongodb://127.0.0.1/user',
+        options: {},
+      },
       book: {
         url: 'mongodb://127.0.0.1/book',
         options: {},
@@ -21,6 +25,23 @@ module.exports = appInfo => {
     },
   };
 
+  config.security = {
+    csrf: {
+      enable: false,
+      ignoreJSON: true
+    },
+    domainWhiteList: ['*']
+  };
+
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+  };
+
+  exports.session = {
+    renew: true,
+  };
+  
   // add your config here
   config.middleware = [];
 

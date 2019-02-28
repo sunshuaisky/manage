@@ -128,9 +128,6 @@ class BookController extends Controller {
                 urls.push(data[i].url);
             }
         }
-        // console.log(getproxylist)
-        // const proxyList = await getproxylist();
-        // console.log(proxyList)
         async.mapLimit(urls, 5, function (url, callback) {
                 fetchUrl(data, url, ctx, callback);
             },
