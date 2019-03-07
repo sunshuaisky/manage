@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1545117524319_9146';
 
   //use mongodb
-  exports.mongoose = {
+  config.mongoose = {
     clients: {
       // clientId, access the client instance by app.mongooseDB.get('clientId')
       user: {
@@ -30,20 +30,22 @@ module.exports = appInfo => {
       enable: false,
       ignoreJSON: true
     },
-    domainWhiteList: ['*']
+    domainWhiteList: ['http://192.168.1.76:8000']
   };
 
   config.cors = {
-    origin: '*',
-    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+    credentials: true,
+    origin: () => ['http://192.168.1.76:8000']//这边不能为*号，需要指定明确的、与请求网页一致的域名
   };
 
-  exports.session = {
-    renew: true,
-  };
-  
-  // add your config here
-  config.middleware = [];
+  config.session = {
+    key: 'USER_INFO',  //key名字
+    maxAge: 1000 * 60 * 24,
+    httpOnly: true,
+    encrypt: true, //加密 
+    renew: true //最大时间范围内，刷新，自动增加最大时间
+  }
 
   return config;
 };
