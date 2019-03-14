@@ -68,6 +68,18 @@ class UserController extends Controller {
       msg: '退出登录！'
     }
   }
+
+  async isLogin() {
+    const ctx = this.ctx;
+    if (!ctx.session.user) {
+      ctx.status = 401;
+    } else {
+      ctx.body = {
+        status: 200,
+        msg: 'ok！'
+      }
+    }
+  }
 }
 
 module.exports = UserController;

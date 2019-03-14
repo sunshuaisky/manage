@@ -30,13 +30,13 @@ module.exports = appInfo => {
       enable: false,
       ignoreJSON: true
     },
-    domainWhiteList: ['http://192.168.1.76:8000']
+    domainWhiteList: ['http://192.168.1.76:8000', 'http://192.168.1.76:8989']
   };
 
   config.cors = {
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
     credentials: true,
-    origin: () => ['http://192.168.1.76:8000']//这边不能为*号，需要指定明确的、与请求网页一致的域名
+    // origin: () => ['http://192.168.1.76:8000', 'http://192.168.1.76:8989']//这边不能为*号，需要指定明确的、与请求网页一致的域名
   };
 
   config.session = {

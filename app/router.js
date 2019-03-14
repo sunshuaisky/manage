@@ -14,6 +14,7 @@ module.exports = app => {
   router.post('/api/login', controller.users.login);
   router.post('/api/register', controller.users.register);
   router.get('/api/logout', controller.users.logout);
+  router.get('/api/isLogin', controller.users.isLogin);
 
   //书籍管理
   router.get('/bookList', controller.book.bookList);
