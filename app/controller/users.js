@@ -4,24 +4,20 @@ const Controller = require('egg').Controller;
 const crypto = require('crypto');
 const ms = require('ms');
 
-
 class UserController extends Controller {
-  //登录
+  // 登录
   async login() {
     const ctx = this.ctx;
-    const {
-      userName,
-      passWord,
-      remember
-    } = ctx.request.body;
-    //加密
+    console.log(ctx.request.body);
+    const { userName, passWord, remember } = ctx.request.body;
+    // 加密
     const md5 = crypto.createHash('md5');
     const end_paw = md5.update(passWord).digest('hex');
     const params = {
-      userName: userName,
-      passWord: end_paw
+      userName,
+      passWord: end_paw,
     };
-    //查询是否存在账户
+    // 查询是否存在账户
     const user = await ctx.service.users.login(params);
     if (user) {
       // 设置 Session
@@ -32,21 +28,21 @@ class UserController extends Controller {
       ctx.body = {
         status: 200,
         msg: '登录成功！',
-        data: user
-      }
+        data: user,
+      };
     } else {
       ctx.body = {
         status: 401,
-        msg: '账号或密码错误！'
-      }
+        msg: '账号或密码错误！',
+      };
     }
   }
 
-  //注册
+  // 注册
   async register() {
     const ctx = this.ctx;
     const params = ctx.request.body;
-    //加密
+    // 加密
     const md5 = crypto.createHash('md5');
     const end_paw = md5.update(params.passWord).digest('hex');
     params.passWord = end_paw;
@@ -65,19 +61,20 @@ class UserController extends Controller {
     ctx.session.user = null;
     ctx.body = {
       status: 200,
-      msg: '退出登录！'
-    }
+      msg: '退出登录！',
+    };
   }
 
   async isLogin() {
     const ctx = this.ctx;
+    console.log(ctx.session.user);
     if (!ctx.session.user) {
       ctx.status = 401;
     } else {
       ctx.body = {
         status: 200,
-        msg: 'ok！'
-      }
+        msg: 'ok！',
+      };
     }
   }
 }

@@ -6,7 +6,7 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1545117524319_9146';
 
-  //use mongodb
+  // use mongodb
   config.mongoose = {
     clients: {
       // clientId, access the client instance by app.mongooseDB.get('clientId')
@@ -28,9 +28,9 @@ module.exports = appInfo => {
   config.security = {
     csrf: {
       enable: false,
-      ignoreJSON: true
+      ignoreJSON: true,
     },
-    domainWhiteList: ['http://192.168.1.76:8000', 'http://192.168.1.76:8989']
+    domainWhiteList: [ 'http://10.100.3.99:8000' ],
   };
 
   config.cors = {
@@ -40,12 +40,12 @@ module.exports = appInfo => {
   };
 
   config.session = {
-    key: 'USER_INFO',  //key名字
-    maxAge: 1000 * 60 * 24,
+    key: 'USER_INFO', // key名字
+    maxAge: 1,
     httpOnly: true,
-    encrypt: true, //加密 
-    renew: true //最大时间范围内，刷新，自动增加最大时间
-  }
+    encrypt: true, // 加密
+    renew: false, // 最大时间范围内，刷新，自动增加最大时间
+  };
 
   return config;
 };
