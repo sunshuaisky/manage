@@ -30,7 +30,7 @@ module.exports = appInfo => {
       enable: false,
       ignoreJSON: true,
     },
-    domainWhiteList: [ 'http://10.100.3.99:8000' ],
+    domainWhiteList: [ 'http://10.100.3.27:8000' ],
   };
 
   config.cors = {
