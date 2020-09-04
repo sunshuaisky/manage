@@ -10,7 +10,7 @@
     "egg-origin": "^1.0.3",
     "egg-passport": "^2.0.1",
     "egg-scripts": "^2.5.0",
-    "mongodb": "^2.2.33",
+    "mongodb": "^3.6.1",
     "mongoose": "^5.0.0",
     "puppeteer": "^1.11.0",
     "puppeteer-core": "^1.11.0"
